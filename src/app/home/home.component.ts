@@ -7,6 +7,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {MessagesService} from "../messages/messages.service";
 import {catchError, from, throwError} from "rxjs";
 import {toObservable, toSignal, outputToObservable, outputFromObservable} from "@angular/core/rxjs-interop";
+import { CoursesServiceWithFetch } from '../services/courses-fetch.service';
 
 @Component({
     selector: 'home',
@@ -19,5 +20,29 @@ import {toObservable, toSignal, outputToObservable, outputFromObservable} from "
     styleUrl: './home.component.scss'
 })
 export class HomeComponent {
+    courses = signal<Course[]>([]);
+    coursesService = inject(CoursesService);
+    
+    constructor(){
+        this.loadCourses()
+            .then(courses => console.log('All courses loaded:courses: ', this.courses()));
+    }    
+    
+    
+    async loadCourses() {
+       try{
+        const courses = await this.coursesService.loadAllCourses();
+        this.courses.set(courses);
+        return courses;
+       }
 
+       catch (error) {
+        alert('Error loading courses: ' + error);
+        console.error('Error loading courses: ', error);
+        return Promise.reject(error);
+        }
+    }
+
+    
 }
+
