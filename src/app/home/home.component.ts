@@ -1,6 +1,6 @@
 import {Component, computed, effect, inject, Injector, signal} from '@angular/core';
 import {CoursesService} from "../services/courses.service";
-import {Course, sortCoursesBySeqNo} from "../models/course.model";
+import {alphaSort, Course, sortCoursesBySeqNo} from "../models/course.model";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
 import {CoursesCardListComponent} from "../courses-card-list/courses-card-list.component";
 import {MatDialog} from "@angular/material/dialog";
@@ -20,19 +20,27 @@ import { CoursesServiceWithFetch } from '../services/courses-fetch.service';
     styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-    courses = signal<Course[]>([]);
+    #courses = signal<Course[]>([]);
     coursesService = inject(CoursesService);
     
+    beginningCourses = computed(() => this.#courses().filter(course => course.category === 'BEGINNER'));
+    advancedCourses = computed(() => this.#courses().filter(course => course.category === 'ADVANCED'));
+    
     constructor(){
+        effect(() => {
+            console.log('beginningCourses: ', this.beginningCourses());
+            console.log('advancedCourses: ', this.advancedCourses());
+        });
+
         this.loadCourses()
-            .then(courses => console.log('All courses loaded:courses: ', this.courses()));
+            .then(courses => console.log('All courses loaded:courses: ', this.#courses()));
     }    
     
     
     async loadCourses() {
        try{
-        const courses = await this.coursesService.loadAllCourses();
-        this.courses.set(courses);
+        const courses = (await this.coursesService.loadAllCourses()).sort(alphaSort);
+        this.#courses.set(courses);
         return courses;
        }
 
