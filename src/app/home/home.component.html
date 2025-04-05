@@ -8,15 +8,19 @@
 
   <mat-tab-group>
 
-    <mat-tab label="Beginners">
+    <mat-tab label="Начальные">
 
-      <courses-card-list [courses]="beginningCourses()"></courses-card-list>
+      <courses-card-list [courses]="beginnerCourses()" 
+        (courseUpdated)="onCourseUpdated($event)">
+      </courses-card-list>
 
     </mat-tab>
 
-    <mat-tab label="Advanced">
+    <mat-tab label="Продвинутые">
 
-      <courses-card-list [courses]="advancedCourses()"></courses-card-list>
+      <courses-card-list [courses]="advancedCourses()"
+        (courseUpdated)="onCourseUpdated($event)">
+      </courses-card-list>
 
     </mat-tab>
 
