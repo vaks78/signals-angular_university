@@ -8,6 +8,7 @@ import {MessagesService} from "../messages/messages.service";
 import {catchError, from, throwError} from "rxjs";
 import {toObservable, toSignal, outputToObservable, outputFromObservable} from "@angular/core/rxjs-interop";
 import { CoursesServiceWithFetch } from '../services/courses-fetch.service';
+import { openEditCourseDialog } from '../edit-course-dialog/edit-course-dialog.component';
 
 @Component({
     selector: 'home',
@@ -27,6 +28,9 @@ export class HomeComponent {
     beginnerCourses = computed(() => this.#courses().filter(course => course.category === 'BEGINNER'));
     advancedCourses = computed(() => this.#courses().filter(course => course.category === 'ADVANCED'));
     
+    dialog = inject(MatDialog);
+
+
     constructor(){
         effect(() => {
             console.log('beginningCourses: ', this.beginnerCourses());
@@ -70,6 +74,20 @@ export class HomeComponent {
        }
     }
 
+
+    async onAddCourse() {
+        const addedCourse = await openEditCourseDialog(this.dialog, 
+            {
+                mode: 'create',
+                title: 'Добавить курс'
+            });
     
+        if (!addedCourse) {
+            return;
+        }
+
+        this.#courses.set([...this.#courses(), addedCourse].sort(alphaSort));
+        console.log('Course added: ', addedCourse);
+    }
 }
 

@@ -15,6 +15,7 @@ import { openEditCourseDialog } from '../edit-course-dialog/edit-course-dialog.c
 export class CoursesCardListComponent {
 
 
+
     courses = input.required<Course[]>();
     courseUpdated = output<Course>();
     courseDeleted = output<string>();
@@ -23,7 +24,7 @@ export class CoursesCardListComponent {
     dialog = inject(MatDialog);
 
     async onEditCourse(courseId: string) {
-        const newCourse = await openEditCourseDialog(this.dialog, 
+        const updatedCourse = await openEditCourseDialog(this.dialog, 
             {
                 mode: 'update',
                 title: 'Редактировать курс',
@@ -31,12 +32,12 @@ export class CoursesCardListComponent {
             }
         );
 
-        if (!newCourse) {
+        if (!updatedCourse) {
             return;
         }
-        console.log('Course edited: ', newCourse);
+        console.log('Course edited: ', updatedCourse);
        
-        this.courseUpdated.emit(newCourse);
+        this.courseUpdated.emit(updatedCourse);
     }
 
     onDeleteCourse(course: Course) {
