@@ -11,7 +11,8 @@
     <mat-tab label="Начальные">
 
       <courses-card-list [courses]="beginnerCourses()" 
-        (courseUpdated)="onCourseUpdated($event)">
+        (courseUpdated)="onCourseUpdated($event)"
+        (courseDeleted)="onCourseDeleted($event)">
       </courses-card-list>
 
     </mat-tab>
@@ -19,7 +20,8 @@
     <mat-tab label="Продвинутые">
 
       <courses-card-list [courses]="advancedCourses()"
-        (courseUpdated)="onCourseUpdated($event)">
+        (courseUpdated)="onCourseUpdated($event)"
+        (courseDeleted)="onCourseDeleted($event)">
       </courses-card-list>
 
     </mat-tab>

@@ -20,6 +20,7 @@ import { CoursesServiceWithFetch } from '../services/courses-fetch.service';
     styleUrl: './home.component.scss'
 })
 export class HomeComponent {
+
     #courses = signal<Course[]>([]);
     coursesService = inject(CoursesService);
     
@@ -54,6 +55,19 @@ export class HomeComponent {
     onCourseUpdated(course: Course) {
         const courses = this.#courses().map(c => c.id === course.id ? course : c);
         this.#courses.set(courses);
+    }
+
+    async onCourseDeleted(courseId: string) {
+       try{
+            await this.coursesService.deleteCourse(courseId);
+            const courses = this.#courses().filter(c => c.id !== courseId);
+            this.#courses.set(courses);
+
+       }
+       catch(err){
+            console.error(err);
+            alert('Error deleting cours.');
+       }
     }
 
     

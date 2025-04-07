@@ -10,6 +10,8 @@
         <div class="course-actions">
             <button class="btn">Посмотреть</button>
             <button class="btn" (click)="onEditCourse(course.id)">Редактировать</button>
+            <img class="delete" src="/assets/icons/delete.svg" 
+                (click)="onDeleteCourse(course)">
         </div>
     </div>
 }
