@@ -23,12 +23,12 @@ export class HomeComponent {
     #courses = signal<Course[]>([]);
     coursesService = inject(CoursesService);
     
-    beginningCourses = computed(() => this.#courses().filter(course => course.category === 'BEGINNER'));
+    beginnerCourses = computed(() => this.#courses().filter(course => course.category === 'BEGINNER'));
     advancedCourses = computed(() => this.#courses().filter(course => course.category === 'ADVANCED'));
     
     constructor(){
         effect(() => {
-            console.log('beginningCourses: ', this.beginningCourses());
+            console.log('beginningCourses: ', this.beginnerCourses());
             console.log('advancedCourses: ', this.advancedCourses());
         });
 
@@ -38,17 +38,22 @@ export class HomeComponent {
     
     
     async loadCourses() {
-       try{
-        const courses = (await this.coursesService.loadAllCourses()).sort(alphaSort);
-        this.#courses.set(courses);
-        return courses;
-       }
-
-       catch (error) {
-        alert('Error loading courses: ' + error);
-        console.error('Error loading courses: ', error);
-        return Promise.reject(error);
+        try{
+            const courses = (await this.coursesService.loadAllCourses()).sort(alphaSort);
+            this.#courses.set(courses);
+            return courses;
         }
+
+        catch (error) {
+            alert('Error loading courses: ' + error);
+            console.error('Error loading courses: ', error);
+            return Promise.reject(error);
+        }
+    }
+
+    onCourseUpdated(course: Course) {
+        const courses = this.#courses().map(c => c.id === course.id ? course : c);
+        this.#courses.set(courses);
     }
 
     

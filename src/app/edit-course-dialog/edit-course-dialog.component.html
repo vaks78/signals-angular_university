@@ -1,41 +1,44 @@
 <loading/>
 
-<div class="edit-course-form">
+<div class="edit-course-form" [formGroup]="editCourseDialogueForm">
 
-  <h3></h3>
+  <h3>{{ data.title }}</h3>
 
   <div class="form-control">
-    <label>Course title:</label>
-    <input placeholder="Enter course title">
+    <label>Название курса:</label>
+    <input placeholder="Введи название"
+      formControlName="title">
   </div>
 
   <div class="form-control">
-    <label>Course description:</label>
-    <textarea placeholder="Enter course description">
+    <label>Описание курса:</label>
+    <textarea placeholder="Введи описание"
+      formControlName="longDescription">
     </textarea>
   </div>
 
   <div class="form-control">
-    <label>Course category:</label>
-    <select>
-      <option value="BEGINNER">Beginners</option>
-      <option value="INTERMEDIATE">Intermediate</option>
-      <option value="ADVANCED">Advanced</option>
+    <label>Категория:</label>
+    <select formControlName="category">
+      <option value="BEGINNER">Начальные</option>
+      <option value="INTERMEDIATE">Средние</option>
+      <option value="ADVANCED">Продвинутые</option>
     </select>
   </div>
 
   <div class="form-control">
-    <label>Course image:</label>
-    <input placeholder="Enter course title">
+    <label>Картинка курса:</label>
+    <input placeholder="Введи адрес картинки"
+      formControlName="iconUrl">
   </div>
 
   <div class="form-actions">
 
-    <button class="btn">
+    <button class="btn" (click)="onSave()" >
       Save
     </button>
 
-    <button class="btn">
+    <button class="btn" (click)="onCancel()">
       Cancel
     </button>
 

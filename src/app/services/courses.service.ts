@@ -14,10 +14,26 @@ export class CoursesService {
   private readonly COURSES_URL = environment.apiRoot + "/courses";
 
 
-  async loadAllCourses(): Promise<Course[]> {
+  async loadAllCourses() {
     const courses$ = this.http.get<GetCoursesResponse>(this.COURSES_URL);
     const response = await firstValueFrom(courses$);
     return response.courses;
   }
+  
+  createCourse(course: Partial<Course>) {
+    const course$ = this.http.post<Course>(this.COURSES_URL, course);
+    return firstValueFrom(course$);
+  } 
+
+  editCourse(courseId: string, changes: Partial<Course>){
+    const course$ = this.http.put<Course>(this.COURSES_URL+ '/' + courseId, changes);
+    return firstValueFrom(course$);
+  } 
+
+  deleteCourse(courseId: string) {
+    const course$ = this.http.delete(this.COURSES_URL+ '/' + courseId);
+    return firstValueFrom(course$);
+  }
+
 
 }
