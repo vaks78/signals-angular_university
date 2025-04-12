@@ -9,6 +9,7 @@ import {catchError, from, throwError} from "rxjs";
 import {toObservable, toSignal, outputToObservable, outputFromObservable} from "@angular/core/rxjs-interop";
 import { CoursesServiceWithFetch } from '../services/courses-fetch.service';
 import { openEditCourseDialog } from '../edit-course-dialog/edit-course-dialog.component';
+import { LoadingService } from '../loading/loading.service';
 
 @Component({
     selector: 'home',
@@ -22,13 +23,14 @@ import { openEditCourseDialog } from '../edit-course-dialog/edit-course-dialog.c
 })
 export class HomeComponent {
 
-    #courses = signal<Course[]>([]);
     coursesService = inject(CoursesService);
-    
+    dialog = inject(MatDialog);
+    loadingService = inject(LoadingService);
+    #courses = signal<Course[]>([]);
+
     beginnerCourses = computed(() => this.#courses().filter(course => course.category === 'BEGINNER'));
     advancedCourses = computed(() => this.#courses().filter(course => course.category === 'ADVANCED'));
     
-    dialog = inject(MatDialog);
 
 
     constructor(){
@@ -54,6 +56,7 @@ export class HomeComponent {
             console.error('Error loading courses: ', error);
             return Promise.reject(error);
         }
+ 
     }
 
     onCourseUpdated(course: Course) {

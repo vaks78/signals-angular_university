@@ -1,9 +1,10 @@
 import {inject, Injectable} from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpContext } from "@angular/common/http";
 import {environment} from "../../environments/environment.development";
 import {firstValueFrom} from "rxjs";
 import {Course} from "../models/course.model";
 import {GetCoursesResponse} from "../models/get-courses.response";
+import { SkipLoading } from "../loading/skip-loading.component";
 
 
 @Injectable({
@@ -31,7 +32,10 @@ export class CoursesService {
   } 
 
   deleteCourse(courseId: string) {
-    const course$ = this.http.delete(this.COURSES_URL+ '/' + courseId);
+    const course$ = this.http.delete(this.COURSES_URL+ '/' + courseId, 
+      {
+        context: new HttpContext().set(SkipLoading, true)  
+      });
     return firstValueFrom(course$);
   }
 
