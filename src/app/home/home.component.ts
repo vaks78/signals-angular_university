@@ -24,8 +24,8 @@ import { LoadingService } from '../loading/loading.service';
 export class HomeComponent {
 
     coursesService = inject(CoursesService);
+    messagesService = inject(MessagesService);
     dialog = inject(MatDialog);
-    loadingService = inject(LoadingService);
     #courses = signal<Course[]>([]);
 
     beginnerCourses = computed(() => this.#courses().filter(course => course.category === 'BEGINNER'));
@@ -47,12 +47,13 @@ export class HomeComponent {
     async loadCourses() {
         try{
             const courses = (await this.coursesService.loadAllCourses()).sort(alphaSort);
+           //  this.messagesService.showMessage('success' , 'Courses loaded successfully!');
             this.#courses.set(courses);
             return courses;
         }
 
         catch (error) {
-            alert('Error loading courses: ' + error);
+            this.messagesService.showMessage('error' , 'Error loading courses: ' + error);
             console.error('Error loading courses: ', error);
             return Promise.reject(error);
         }
@@ -60,20 +61,30 @@ export class HomeComponent {
     }
 
     onCourseUpdated(course: Course) {
-        const courses = this.#courses().map(c => c.id === course.id ? course : c);
-        this.#courses.set(courses);
+        try{
+            const courses = this.#courses().map(c => c.id === course.id ? course : c);
+            this.messagesService.showMessage('success' , 'Course updated successfully!');
+            this.#courses.set(courses);
+
+       }
+       catch(err){
+            console.error('Error updating course: ' + err);
+            this.messagesService.showMessage('error' , 'Error updating course: ' + err);
+       }
+
     }
 
     async onCourseDeleted(courseId: string) {
        try{
             await this.coursesService.deleteCourse(courseId);
+            this.messagesService.showMessage('success' , 'Course deleted successfully!');
             const courses = this.#courses().filter(c => c.id !== courseId);
             this.#courses.set(courses);
 
        }
        catch(err){
-            console.error(err);
-            alert('Error deleting cours.');
+            console.error('Error deleting course: ' + err);
+            this.messagesService.showMessage('error' , 'Error deleting course: ' + err);
        }
     }
 
@@ -86,10 +97,12 @@ export class HomeComponent {
             });
     
         if (!addedCourse) {
+            this.messagesService.showMessage('error' , 'Error deleting course.' );
             return;
         }
 
         this.#courses.set([...this.#courses(), addedCourse].sort(alphaSort));
+        this.messagesService.showMessage('success' , 'Course added successfully!');
         console.log('Course added: ', addedCourse);
     }
 }

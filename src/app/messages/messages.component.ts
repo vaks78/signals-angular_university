@@ -12,5 +12,7 @@ import {NgClass} from "@angular/common";
 })
 export class MessagesComponent {
 
+    messagesService = inject(MessagesService);
+    message = this.messagesService.message;
 
 }

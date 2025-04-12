@@ -7,5 +7,15 @@ import {Message, MessageSeverity} from "../models/message.model";
 })
 export class MessagesService {
 
+  #message = signal<Message | null>(null);
+  
+  message = this.#message.asReadonly();
 
+  showMessage(severity: MessageSeverity, text: string) {
+    debugger
+    this.#message.set({severity, text});
+    setTimeout(() => {
+      this.#message.set(null);
+    }, 5000);
+  }
 }
