@@ -17,7 +17,7 @@ export function getAllCourses(req: Request, res: Response) {
 
     res.status(200).json({courses:Object.values(COURSES)});
 
-  }, 3000);
+  }, 2000);
 
 
 }
@@ -30,7 +30,7 @@ export function getCourseById(req: Request, res: Response) {
 
     const courses:any = Object.values(COURSES);
 
-    const course = courses.find(course => course.id == courseId);
+    const course = courses.find((course: { id: string; }) => course.id == courseId);
 
     res.status(200).json(course);
   }, 1500);

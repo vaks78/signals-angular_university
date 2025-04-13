@@ -12,7 +12,6 @@ export class MessagesService {
   message = this.#message.asReadonly();
 
   showMessage(severity: MessageSeverity, text: string) {
-    debugger
     this.#message.set({severity, text});
     setTimeout(() => {
       this.#message.set(null);

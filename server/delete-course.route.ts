@@ -16,7 +16,7 @@ export function deleteCourse(req: Request, res: Response) {
 
     res.status(200).json({id});
 
-  }, 3000);
+  }, 2000);
 
 }
 

@@ -60,7 +60,6 @@ export class EditCourseDialogComponent {
       return course;
     }
     catch (error) {
-      alert('Error saving course: ' + error);
       console.error('Error saving course: ', error);
       return Promise.reject(error);
     }

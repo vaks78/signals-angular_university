@@ -22,9 +22,9 @@ import { LoadingService } from '../loading/loading.service';
     styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-
     coursesService = inject(CoursesService);
     messagesService = inject(MessagesService);
+
     dialog = inject(MatDialog);
     #courses = signal<Course[]>([]);
 
@@ -34,13 +34,19 @@ export class HomeComponent {
 
 
     constructor(){
+        this.loadCourses()
+            .then(() => console.log('All courses loaded.'));
+        
         effect(() => {
-            console.log('beginningCourses: ', this.beginnerCourses());
-            console.log('advancedCourses: ', this.advancedCourses());
+            const beginnerCourses = this.beginnerCourses();
+            const advancedCourses = this.advancedCourses();
+            if (beginnerCourses.length > 0)
+                 console.log('beginnerCourses: ', beginnerCourses);
+            if (advancedCourses.length > 0)
+                console.log('advancedCourses: ', advancedCourses);
         });
 
-        this.loadCourses()
-            .then(courses => console.log('All courses loaded:courses: ', this.#courses()));
+        
     }    
     
     
