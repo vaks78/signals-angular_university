@@ -36,7 +36,7 @@ export class EditCourseDialogComponent {
     category: [this.data?.course?.category ?? COURSE_CATEGORIES.BEGINNER, Validators.required],
     iconUrl: [this.data?.course?.iconUrl, Validators.required]
   });
-  category = signal<CourseCategory>(this.data?.course?.category!);
+  category = signal<CourseCategory>(this.editCourseDialogueForm.get('category')!.value as CourseCategory);
 
   constructor() {
     effect(() => {

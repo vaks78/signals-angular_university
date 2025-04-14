@@ -20,9 +20,7 @@ export class CourseCategoryComboboxComponent {
 
 
   onCategoryChanged(newValue: string) {
-    debugger
     this.value.set(newValue as CourseCategory);
-
   }
 
 }
