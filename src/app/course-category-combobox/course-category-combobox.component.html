@@ -1,12 +1,11 @@
 
 <div class="form-control">
-
-  <label></label>
-
-  <select  #category>
-    <option value="BEGINNER">Beginners</option>
-    <option value="INTERMEDIATE">Intermediate</option>
-    <option value="ADVANCED">Advanced</option>
+  <label>{{label()}}</label>
+  <select [value]="value()" [formControl]="control"
+    (change)="onCategoryChanged(category.value)" #category>
+    <option value="BEGINNER">Начальные</option>
+    <option value="INTERMEDIATE">Средние</option>
+    <option value="ADVANCED">Продвинутые</option>
   </select>
 
 </div>

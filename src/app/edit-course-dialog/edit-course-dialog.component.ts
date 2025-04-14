@@ -4,10 +4,12 @@ import {Course} from "../models/course.model";
 import {EditCourseDialogData} from "./edit-course-dialog.data.model";
 import {CoursesService} from "../services/courses.service";
 import {LoadingIndicatorComponent} from "../loading/loading.component";
-import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
+import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {CourseCategoryComboboxComponent} from "../course-category-combobox/course-category-combobox.component";
 import {CourseCategory} from "../models/course-category.model";
 import { config, firstValueFrom } from 'rxjs';
+import { COURSE_CATEGORIES } from '../constants';
+import { MessagesService } from '../messages/messages.service';
 
 @Component({
   selector: 'edit-course-dialog',
@@ -21,24 +23,35 @@ import { config, firstValueFrom } from 'rxjs';
   styleUrl: './edit-course-dialog.component.scss'
 })
 export class EditCourseDialogComponent {
-
+  coursesService = inject(CoursesService);
   dialogRef = inject(MatDialogRef<EditCourseDialogComponent>);
   data = inject(MAT_DIALOG_DATA) as EditCourseDialogData;
   fb = inject(FormBuilder);
-  coursesService = inject(CoursesService);
+  messagesService = inject(MessagesService);
 
+  
   editCourseDialogueForm = this.fb.group({
-    title: [this.data.course?.title],
-    longDescription: [this.data.course?.longDescription],
-    category: [this.data.course?.category],
-    iconUrl: [this.data.course?.iconUrl]
+    title: [this.data?.course?.title, Validators.required],
+    longDescription: [this.data?.course?.longDescription, Validators.required],
+    category: [this.data?.course?.category, Validators.required],
+    iconUrl: [this.data?.course?.iconUrl, Validators.required]
   });
+  category = signal<CourseCategory>(this.data?.course?.category ?? COURSE_CATEGORIES.BEGINNER);
 
+  constructor() {
+    effect(() => {
+      console.log('Category latest val: ', this.category());
+    });
+  }
   onCancel () {
     this.dialogRef.close(); 
   }
 
   onSave() {
+    if (this.editCourseDialogueForm.invalid) {
+      this.messagesService.showMessage('warning', 'Please fill all required fields!');
+      return;
+    } 
     const courseProps = this.editCourseDialogueForm.value as Partial<Course>;
     if (this.data.mode === 'create') {
       this.saveCourse(courseProps);
@@ -51,7 +64,6 @@ export class EditCourseDialogComponent {
 
   private async saveCourse(changes: Partial<Course>, courseId?: string) { 
     try {
-       
       const course = courseId ? 
         await this.coursesService.editCourse(courseId, changes):
         await this.coursesService.createCourse(changes);

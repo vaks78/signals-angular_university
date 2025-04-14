@@ -17,14 +17,20 @@
     </textarea>
   </div>
 
-  <div class="form-control">
+  <!-- <div class="form-control">
     <label>Категория:</label>
     <select formControlName="category">
       <option value="BEGINNER">Начальные</option>
       <option value="INTERMEDIATE">Средние</option>
       <option value="ADVANCED">Продвинутые</option>
     </select>
-  </div>
+  </div> -->
+
+  <course-category-combobox 
+    [control]="editCourseDialogueForm.controls['category']" 
+    label="Категория:" 
+    [(value)]="category">
+  </course-category-combobox>
 
   <div class="form-control">
     <label>Картинка курса:</label>

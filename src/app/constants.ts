@@ -1,1 +1,6 @@
 export const USER_STORAGE_KEY = 'user';
+
+const BEGINNER = 'BEGINNER';
+const INTERMEDIATE = 'INTERMEDIATE';    
+const ADVANCED = 'ADVANCED';
+export const COURSE_CATEGORIES = {BEGINNER, INTERMEDIATE, ADVANCED} as const;

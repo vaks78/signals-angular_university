@@ -1,14 +1,29 @@
-import {Component, input, model} from '@angular/core';
+import {Component, Input, input, model} from '@angular/core';
 import {CourseCategory} from "../models/course-category.model";
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'course-category-combobox',
   standalone: true,
-  imports: [],
+  imports: [FormsModule, ReactiveFormsModule],
   templateUrl: './course-category-combobox.component.html',
   styleUrl: './course-category-combobox.component.scss'
 })
 export class CourseCategoryComboboxComponent {
 
+  label = input.required<string>();
+  value = model.required<CourseCategory>(); 
+
+  @Input() control!: FormControl;
+
+
+
+
+  onCategoryChanged(newValue: string) {
+    debugger
+    this.value.set(newValue as CourseCategory);
+
+  }
 
 }
+

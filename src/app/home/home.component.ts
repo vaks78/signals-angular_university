@@ -10,6 +10,7 @@ import {toObservable, toSignal, outputToObservable, outputFromObservable} from "
 import { CoursesServiceWithFetch } from '../services/courses-fetch.service';
 import { openEditCourseDialog } from '../edit-course-dialog/edit-course-dialog.component';
 import { LoadingService } from '../loading/loading.service';
+import { COURSE_CATEGORIES } from '../constants';
 
 @Component({
     selector: 'home',
@@ -28,8 +29,8 @@ export class HomeComponent {
     dialog = inject(MatDialog);
     #courses = signal<Course[]>([]);
 
-    beginnerCourses = computed(() => this.#courses().filter(course => course.category === 'BEGINNER'));
-    advancedCourses = computed(() => this.#courses().filter(course => course.category === 'ADVANCED'));
+    beginnerCourses = computed(() => this.#courses().filter(course => course.category === COURSE_CATEGORIES.BEGINNER));
+    advancedCourses = computed(() => this.#courses().filter(course => course.category === COURSE_CATEGORIES.ADVANCED));
     
 
 
@@ -103,7 +104,7 @@ export class HomeComponent {
             });
     
         if (!addedCourse) {
-            this.messagesService.showMessage('error' , 'Error deleting course.' );
+            //this.messagesService.showMessage('error' , 'Error deleting course.' );
             return;
         }
 

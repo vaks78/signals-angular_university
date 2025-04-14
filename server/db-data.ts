@@ -964,7 +964,14 @@ export const USERS = {
     email: 'test@angular-university.io',
     password: 'test',
     pictureUrl: 'https://lh3.googleusercontent.com/-1pUNnTB3vaA/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdn4uEc0ti8YE4Uuw6_Kz04tVe2Mg.CMID/s32-c/photo.jpg'
-  }
+  },
+
+  2: {
+    id: 2,
+    email: 'vaks78@gmail.com',
+    password: 'vaks',
+    pictureUrl: 'https://lh3.googleusercontent.com/-1pUNnTB3vaA/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdn4uEc0ti8YE4Uuw6_Kz04tVe2Mg.CMID/s32-c/photo.jpg'
+  },
 
 };
 
