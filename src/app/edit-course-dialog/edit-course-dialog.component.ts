@@ -33,10 +33,10 @@ export class EditCourseDialogComponent {
   editCourseDialogueForm = this.fb.group({
     title: [this.data?.course?.title, Validators.required],
     longDescription: [this.data?.course?.longDescription, Validators.required],
-    category: [this.data?.course?.category, Validators.required],
+    category: [this.data?.course?.category ?? COURSE_CATEGORIES.BEGINNER, Validators.required],
     iconUrl: [this.data?.course?.iconUrl, Validators.required]
   });
-  category = signal<CourseCategory>(this.data?.course?.category ?? COURSE_CATEGORIES.BEGINNER);
+  category = signal<CourseCategory>(this.data?.course?.category!);
 
   constructor() {
     effect(() => {
