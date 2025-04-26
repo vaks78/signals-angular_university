@@ -3,6 +3,7 @@ import {RouterLink} from "@angular/router";
 import {Course} from "../models/course.model";
 import {MatDialog} from "@angular/material/dialog";
 import { openEditCourseDialog } from '../edit-course-dialog/edit-course-dialog.component';
+import { MessagesService } from '../messages/messages.service';
 
 @Component({
     selector: 'courses-card-list',
@@ -13,15 +14,13 @@ import { openEditCourseDialog } from '../edit-course-dialog/edit-course-dialog.c
     styleUrl: './courses-card-list.component.scss'
 })
 export class CoursesCardListComponent {
-
-
+    dialog = inject(MatDialog);
+    messagesService = inject(MessagesService);
 
     courses = input.required<Course[]>();
     courseUpdated = output<Course>();
     courseDeleted = output<string>();
 
-
-    dialog = inject(MatDialog);
 
     async onEditCourse(courseId: string) {
         const updatedCourse = await openEditCourseDialog(this.dialog, 
@@ -33,6 +32,7 @@ export class CoursesCardListComponent {
         );
 
         if (!updatedCourse) {
+            this.messagesService.showMessage('error' , 'Error editing course.' );
             return;
         }
         console.log('Course edited: ', updatedCourse);

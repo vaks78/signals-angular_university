@@ -1,7 +1,7 @@
-import {computed, effect, inject, Injectable, signal} from "@angular/core";
-import {User} from "../models/user.model";
-import {environment} from "../../environments/environment.development";
-import {Router} from "@angular/router";
+import { computed, effect, inject, Injectable, signal } from "@angular/core";
+import { User } from "../models/user.model";
+import { environment } from "../../environments/environment.development";
+import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { firstValueFrom } from "rxjs";
 import { USER_STORAGE_KEY } from "../constants";

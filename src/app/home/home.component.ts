@@ -25,10 +25,9 @@ import { COURSE_CATEGORIES } from '../constants';
 export class HomeComponent {
     coursesService = inject(CoursesService);
     messagesService = inject(MessagesService);
-
     dialog = inject(MatDialog);
-    #courses = signal<Course[]>([]);
 
+    #courses = signal<Course[]>([]);
     beginnerCourses = computed(() => this.#courses().filter(course => course.category === COURSE_CATEGORIES.BEGINNER));
     advancedCourses = computed(() => this.#courses().filter(course => course.category === COURSE_CATEGORIES.ADVANCED));
     
@@ -49,23 +48,6 @@ export class HomeComponent {
 
         
     }    
-    
-    
-    async loadCourses() {
-        try{
-            const courses = (await this.coursesService.loadAllCourses()).sort(alphaSort);
-           //  this.messagesService.showMessage('success' , 'Courses loaded successfully!');
-            this.#courses.set(courses);
-            return courses;
-        }
-
-        catch (error) {
-            this.messagesService.showMessage('error' , 'Error loading courses: ' + error);
-            console.error('Error loading courses: ', error);
-            return Promise.reject(error);
-        }
- 
-    }
 
     onCourseUpdated(course: Course) {
         try{
@@ -104,13 +86,30 @@ export class HomeComponent {
             });
     
         if (!addedCourse) {
-            //this.messagesService.showMessage('error' , 'Error deleting course.' );
+            this.messagesService.showMessage('error' , 'Error adding new course.' );
             return;
         }
 
         this.#courses.set([...this.#courses(), addedCourse].sort(alphaSort));
         this.messagesService.showMessage('success' , 'Course added successfully!');
         console.log('Course added: ', addedCourse);
+    }
+
+        
+    private async loadCourses() {
+        try{
+            const courses = (await this.coursesService.loadAllCourses()).sort(alphaSort);
+           //  this.messagesService.showMessage('success' , 'Courses loaded successfully!');
+            this.#courses.set(courses);
+            return courses;
+        }
+
+        catch (error) {
+            this.messagesService.showMessage('error' , 'Error loading courses: ' + error);
+            console.error('Error loading courses: ', error);
+            return Promise.reject(error);
+        }
+ 
     }
 }
 
