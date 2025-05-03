@@ -35,9 +35,12 @@ export class CoursesCardListComponent {
             this.messagesService.showMessage('error' , 'Error editing course.' );
             return;
         }
+        if (updatedCourse === 'closed') {
+            return;
+        }
         console.log('Course edited: ', updatedCourse);
        
-        this.courseUpdated.emit(updatedCourse);
+        this.courseUpdated.emit(updatedCourse as Course);
     }
 
     onDeleteCourse(course: Course) {
