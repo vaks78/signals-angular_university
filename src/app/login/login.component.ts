@@ -34,7 +34,7 @@ export class LoginComponent {
                 return;
             }
             await this.authService.login(email, password);
-            this.messagesService.showMessage('success', 'Login successful');
+            this.messagesService.showMessage('info', 'Login successful');
             console.log('Login successful');
             // Navigate to home page after successful login
             this.router.navigate(['/home']);

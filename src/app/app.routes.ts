@@ -24,11 +24,13 @@ export const routes: Routes = [
   },
   {
     path: "lessons",
-    component: LessonsComponent
+    component: LessonsComponent,
+    canActivate: [isUserAuthenticated]
   },
   {
     path:"shopping-cart",
-    component: LinkedSignalDemoComponent
+    component: LinkedSignalDemoComponent,
+    canActivate: [isUserAuthenticated]
   },
   {
     path: "resource-demo",

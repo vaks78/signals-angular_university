@@ -5,15 +5,18 @@
   <h3>{{ data.title }}</h3>
 
   <div class="form-control">
-    <label>Название курса:</label>
+    <label for="title">Название курса:</label>
     <input placeholder="Введи название"
-      formControlName="title">
+           formControlName="title"
+           type="text"
+           id="title">
   </div>
 
   <div class="form-control">
-    <label>Описание курса:</label>
+    <label for="longDescription">Описание курса:</label>
     <textarea placeholder="Введи описание"
-      formControlName="longDescription">
+              formControlName="longDescription"
+              id="longDescription">
     </textarea>
   </div>
 
@@ -27,15 +30,17 @@
   </div> -->
 
   <course-category-combobox 
-    [control]="editCourseDialogueForm.controls['category']" 
-    label="Категория:" 
-    [(value)]="category">
+           [control]="editCourseDialogueForm.controls['category']" 
+           label="Категория:" 
+           [(value)]="category">
   </course-category-combobox>
 
   <div class="form-control">
-    <label>Картинка курса:</label>
+    <label for="iconUrl">Картинка курса:</label>
     <input placeholder="Введи адрес картинки"
-      formControlName="iconUrl">
+           formControlName="iconUrl"
+           type="url"
+           id="iconUrl">
   </div>
 
   <div class="form-actions">
