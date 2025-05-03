@@ -3,7 +3,7 @@ import {RouterLink} from "@angular/router";
 import {Course} from "../models/course.model";
 import {MatDialog} from "@angular/material/dialog";
 import { openEditCourseDialog } from '../edit-course-dialog/edit-course-dialog.component';
-import { MessagesService } from '../messages/messages.service';
+import { MessagesService } from '../services/messages.service';
 
 @Component({
     selector: 'courses-card-list',

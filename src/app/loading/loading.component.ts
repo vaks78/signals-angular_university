@@ -1,6 +1,7 @@
 import {Component, inject, Signal} from "@angular/core";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
-import {LoadingService} from "./loading.service";
+import {LoadingService} from "../services/loading.service";
+import { HttpContextToken } from "@angular/common/http";
 
 @Component({
     selector: "loading",
@@ -9,10 +10,9 @@ import {LoadingService} from "./loading.service";
     imports: [MatProgressSpinner]
 })
 export class LoadingIndicatorComponent {
-
     loadingService = inject(LoadingService);
     loading = this.loadingService.loading;
-
-
-
 }
+
+export const SkipLoading = new HttpContextToken(() => false);
+

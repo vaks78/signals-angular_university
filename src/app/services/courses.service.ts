@@ -4,7 +4,7 @@ import {environment} from "../../environments/environment.development";
 import {firstValueFrom} from "rxjs";
 import {Course} from "../models/course.model";
 import {GetCoursesResponse} from "../models/get-courses.response";
-import { SkipLoading } from "../loading/skip-loading.component";
+import { SkipLoading } from "../loading/loading.component";
 
 
 @Injectable({
@@ -16,7 +16,11 @@ export class CoursesService {
 
 
   async loadAllCourses() {
-    const courses$ = this.http.get<GetCoursesResponse>(this.COURSES_URL);
+    const courses$ = this.http.get<GetCoursesResponse>(this.COURSES_URL,
+      {
+        context: new HttpContext().set(SkipLoading, true)  
+      }
+    );
     // todo: try to remove async-await 
     const response = await firstValueFrom(courses$);
     return response.courses;
@@ -33,10 +37,7 @@ export class CoursesService {
   } 
 
   deleteCourse(courseId: string) {
-    const course$ = this.http.delete(this.COURSES_URL+ '/' + courseId, 
-      {
-        context: new HttpContext().set(SkipLoading, true)  
-      });
+    const course$ = this.http.delete(this.COURSES_URL+ '/' + courseId);
     return firstValueFrom(course$);
   }
 

@@ -1,15 +1,15 @@
 import {Component, effect, inject, signal} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {Course} from "../models/course.model";
-import {EditCourseDialogData} from "./edit-course-dialog.data.model";
 import {CoursesService} from "../services/courses.service";
 import {LoadingIndicatorComponent} from "../loading/loading.component";
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {CourseCategoryComboboxComponent} from "../course-category-combobox/course-category-combobox.component";
 import {CourseCategory} from "../models/course-category.model";
-import { config, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { COURSE_CATEGORIES } from '../constants';
-import { MessagesService } from '../messages/messages.service';
+import { MessagesService } from '../services/messages.service';
+import { EditCourseDialogData } from '../models/edit-course-dialog.data.model';
 
 @Component({
   selector: 'edit-course-dialog',

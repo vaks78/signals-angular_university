@@ -1,7 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {Router, RouterLink} from "@angular/router";
 import {AuthService} from "../services/auth.service";
-import {MessagesService} from "../messages/messages.service";
+import {MessagesService} from "../services/messages.service";
 import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
 import { USER_STORAGE_KEY } from '../constants';
 

@@ -8,7 +8,7 @@ import {MatIconButton} from "@angular/material/button";
 import {LoadingIndicatorComponent} from "./loading/loading.component";
 import {MessagesComponent} from "./messages/messages.component";
 import { AuthService } from './services/auth.service';
-import { MessagesService } from './messages/messages.service';
+import { MessagesService } from './services/messages.service';
 
 
 @Component({
