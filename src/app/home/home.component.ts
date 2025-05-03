@@ -89,6 +89,9 @@ export class HomeComponent {
             this.messagesService.showMessage('error' , 'Error adding new course.' );
             return;
         }
+        if (addedCourse === 'closed') {
+            return;
+        }
 
         this.#courses.set([...this.#courses(), addedCourse].sort(alphaSort));
         this.messagesService.showMessage('success' , 'Course added successfully!');

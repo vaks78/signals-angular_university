@@ -44,7 +44,7 @@ export class EditCourseDialogComponent {
     });
   }
   onCancel () {
-    this.dialogRef.close(); 
+    this.dialogRef.close('closed'); 
   }
 
   onSave() {
@@ -80,7 +80,7 @@ export class EditCourseDialogComponent {
 }
 
 
-export async function openEditCourseDialog(dialog: MatDialog, data: EditCourseDialogData): Promise<Course | null> {
+export async function openEditCourseDialog(dialog: MatDialog, data: EditCourseDialogData): Promise<Course | null | 'closed'> {
 
   //const dialog = inject(MatDialog);
   

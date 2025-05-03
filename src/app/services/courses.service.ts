@@ -17,6 +17,7 @@ export class CoursesService {
 
   async loadAllCourses() {
     const courses$ = this.http.get<GetCoursesResponse>(this.COURSES_URL);
+    // todo: try to remove async-await 
     const response = await firstValueFrom(courses$);
     return response.courses;
   }
