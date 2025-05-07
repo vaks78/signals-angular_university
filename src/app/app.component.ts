@@ -5,10 +5,10 @@ import {MatListItem, MatNavList} from "@angular/material/list";
 import {MatIcon} from "@angular/material/icon";
 import {MatToolbar} from "@angular/material/toolbar";
 import {MatIconButton} from "@angular/material/button";
-import {LoadingIndicatorComponent} from "./loading/loading.component";
-import {MessagesComponent} from "./messages/messages.component";
+import {MessagesComponent} from "./components/messages/messages.component";
 import { AuthService } from './services/auth.service';
 import { MessagesService } from './services/messages.service';
+import { LoadingIndicatorComponent } from './components/loading/loading.component';
 
 
 @Component({

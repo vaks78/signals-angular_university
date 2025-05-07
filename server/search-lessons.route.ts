@@ -9,14 +9,13 @@ export function searchLessons(req: Request, res: Response) {
     courseId = req.query["courseId"] as string;
 
   const allLessons: any[] = Object.values(LESSONS);
-
   if (!query && !courseId) {
     res.status(200).json({lessons: []});
     return;
   }
 
   let filtered: any[] = allLessons;
-  console.log(`Filtering total lessons ${filtered?.length}`, allLessons)
+  console.log(`Filtering total lessons ${filtered?.length}`)
 
   if (courseId) {
     console.log(`Filtering by courseId ${parseInt(courseId)}`)
@@ -33,6 +32,7 @@ export function searchLessons(req: Request, res: Response) {
 
   const lessons = filtered.slice(0, 10);
 
+  console.log(`Returning  ${lessons?.length} results:`, lessons)
   setTimeout(() => {
     res.status(200).json({lessons});
   }, 1000);
