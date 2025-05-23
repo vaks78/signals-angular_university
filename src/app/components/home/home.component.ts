@@ -23,6 +23,7 @@ import { COURSE_CATEGORIES } from '../../constants';
     styleUrl: './home.component.scss'
 })
 export class HomeComponent {
+
     coursesService = inject(CoursesService);
     messagesService = inject(MessagesService);
     dialog = inject(MatDialog);
@@ -31,9 +32,13 @@ export class HomeComponent {
     beginnerCourses = computed(() => this.#courses().filter(course => course.category === COURSE_CATEGORIES.BEGINNER));
     advancedCourses = computed(() => this.#courses().filter(course => course.category === COURSE_CATEGORIES.ADVANCED));
     
-
+    // learning
+    courses$ = toObservable(this.#courses);
 
     constructor(){
+        this.courses$.subscribe(courses => {
+            console.log('Courses emitted by observable: ', courses);
+        });
         sessionStorage.clear();
         this.loadCourses()
             .then(() => console.log('All courses loaded.'))
@@ -116,5 +121,34 @@ export class HomeComponent {
         }
  
     }
+
+    // inject context
+    injector = inject(Injector);
+    onToObservableExample() {
+
+        //first example
+        const courses$ = toObservable(this.#courses, {
+            injector: this.injector
+        });
+
+        this.courses$.subscribe(courses => {
+            console.log('Courses inside method observable: ', courses);
+        });
+
+        // second example
+        const numbers = signal(0);
+        numbers.set(1);
+        numbers.set(2);
+        numbers.set(3);
+        const numbers$ = toObservable(numbers, {
+            injector: this.injector
+        });
+        numbers.set(4);
+        numbers$.subscribe(num => {
+            //prints 5 only
+            console.log('Numbers inside method observable: ', num);
+        });
+        numbers.set(5);
+    }    
 }
 
