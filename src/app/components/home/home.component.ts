@@ -5,12 +5,13 @@ import {MatTab, MatTabGroup} from "@angular/material/tabs";
 import {CoursesCardListComponent} from "../courses-card-list/courses-card-list.component";
 import {MatDialog} from "@angular/material/dialog";
 import {MessagesService} from "../../services/messages.service";
-import {catchError, from, throwError} from "rxjs";
+import {catchError, from, interval, startWith, throwError} from "rxjs";
 import {toObservable, toSignal, outputToObservable, outputFromObservable} from "@angular/core/rxjs-interop";
 import { CoursesServiceWithFetch } from '../../services/courses-fetch.service';
 import { openEditCourseDialog } from '../edit-course-dialog/edit-course-dialog.component';
 import { LoadingService } from '../../services/loading.service';
 import { COURSE_CATEGORIES } from '../../constants';
+import e from 'express';
 
 @Component({
     selector: 'home',
@@ -34,10 +35,15 @@ export class HomeComponent {
     
     // learning
     courses$ = toObservable(this.#courses);
+    courses = toSignal(this.courses$);
 
     constructor(){
+        effect(() => {
+            console.log('Courses emitted by signal in ctor: ', this.courses());
+        });
+        
         this.courses$.subscribe(courses => {
-            console.log('Courses emitted by observable: ', courses);
+            console.log('Courses emitted by observable in ctor: ', courses);
         });
         sessionStorage.clear();
         this.loadCourses()
@@ -132,7 +138,7 @@ export class HomeComponent {
         });
 
         this.courses$.subscribe(courses => {
-            console.log('Courses inside method observable: ', courses);
+            console.log('Courses inside onToObservableExample() observable: ', courses);
         });
 
         // second example
@@ -146,9 +152,57 @@ export class HomeComponent {
         numbers.set(4);
         numbers$.subscribe(num => {
             //prints 5 only
-            console.log('Numbers inside method observable: ', num);
+            console.log('Numbers inside onToObservableExample() observable: ', num);
         });
         numbers.set(5);
-    }    
+    } 
+    
+    onToSignalExample(){
+        try{
+            // first example
+            const courses = toSignal(
+                //this.courses$
+                from(this.coursesService.loadAllCourses())
+                    .pipe(
+                        catchError(err => {
+                            console.error('Error caught in cathError: ', err);
+                            throw err;
+                        })
+                    ),
+                {
+                injector: this.injector,
+                rejectErrors: false
+            });
+
+            effect(() => {
+                console.log('Courses emitted by signal inside onToSignalExample(): ', this.courses());
+            }, {
+                injector: this.injector
+            });
+
+            setInterval(() => {
+                console.log('Courses emitted by signal inside onToSignalExample() setInterval: ', this.courses());
+            }   , 1000);
+        }
+        catch (err) {
+            console.error('Error caught in cath block: ', err);
+        }
+       
+
+
+        // second example
+        const number$ = interval(1000).pipe(startWith(0));
+        const numbers = toSignal(number$, {
+            injector: this.injector,
+            //initialValue: 0, //- the same as startWith(0) + requireSync
+            requireSync: true
+        });
+
+        effect(() => {
+            console.log('Numbers emitted by signal inside onToSignalExample(): ', numbers());
+        }, {
+            injector: this.injector
+        });
+    }
 }
 
