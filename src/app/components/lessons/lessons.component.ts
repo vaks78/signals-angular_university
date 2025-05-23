@@ -53,11 +53,10 @@ export class LessonsComponent implements OnDestroy, AfterViewChecked{
         try {
             const query = sessionStorage.getItem('lastSerchQuery')!;
             if (lesson.description.trim().toLocaleLowerCase().includes(query)) {
-                const lessons = this.#lessons().map(l => l.id === lesson.id ? lesson : l);
-                this.#lessons.set(lessons);
+                this.#lessons.set(this.#lessons().map(l => l.id === lesson.id ? lesson : l));
             }
             else{
-                this.#lessons.set(await this.lessonsService.loadLessons({query}));
+                this.#lessons.set(this.#lessons().filter(l => l.id !== lesson.id));
             }
             this.mode.set('master');
             this.selectedLesson.set(null);
