@@ -1,7 +1,7 @@
 import {Routes} from '@angular/router';
 import {HomeComponent} from "./components/home/home.component";
 import {LessonsComponent} from "./components/lessons/lessons.component";
-import {ResourceDemoComponent} from "./resource-demo/resource-demo.component";
+import {ResourceDemoComponent} from "./components/resource-demo/resource-demo.component";
 import {LinkedSignalDemoComponent} from "./components/linked-signal/linked-signal-demo.component";
 import { isUserAuthenticated } from './guards/auth.guard';
 import { CourseComponent } from './components/course/course.component';
@@ -40,7 +40,9 @@ export const routes: Routes = [
   },
   {
     path: "resource-demo",
-    component: ResourceDemoComponent
+    component: ResourceDemoComponent,
+    canActivate: [isUserAuthenticated],
+
   },
   {
     path: '**',

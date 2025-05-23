@@ -14,10 +14,14 @@
 
 </div>
 
+    @if (lessonsUsingFetch.isLoading()) {
+      <mat-spinner class="loading" />
+    }
 
+    @else{
       <div class="table-container">
         <table class="results-table">
-          @for(lesson of lessons(); track lesson.id) {
+          @for(lesson of lessonsUsingFetch.value(); track lesson.id) {
             <tr>
               <td>
                 {{lesson.description}}
@@ -32,6 +36,8 @@
         </table>
       </div>
 
+    }
+   
 
     <button class="btn reload-btn" (click)="reload()">
       Reload Lessons
