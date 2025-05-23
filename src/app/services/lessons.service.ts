@@ -10,8 +10,8 @@ import {environment} from "../../environments/environment.development";
   providedIn: 'root'
 })
 export class LessonsService {
-  #lessonsUrl = signal(environment.apiRoot + "/search-lessons");
-  lessonsUrl = this.#lessonsUrl.asReadonly();
+  #lessonsUrl = signal(environment.apiRoot);
+  //lessonsUrl = this.#lessonsUrl.asReadonly();
 
   http = inject(HttpClient);
 
@@ -30,14 +30,18 @@ export class LessonsService {
       params = params.set('query', query);
     }
 
-    const lessons$ = this.http.get<GetLessonsResponse>(this.#lessonsUrl(),
+    const lessons$ = this.http.get<GetLessonsResponse>(this.#lessonsUrl() + "/search-lessons",
       {
         params
       });
     const response = await firstValueFrom(lessons$);
-    debugger
     return response.lessons;
-   
+
+  }
+
+  updateLesson(lessonId: string, changes: Partial<Lesson>) {
+    const updateLesson$ = this.http.put<Lesson>(this.#lessonsUrl() + `/lessons/${lessonId}`, changes);
+    return firstValueFrom(updateLesson$);
   }
 
 }

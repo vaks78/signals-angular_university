@@ -34,8 +34,13 @@ export class HomeComponent {
 
 
     constructor(){
+        sessionStorage.clear();
         this.loadCourses()
-            .then(() => console.log('All courses loaded.'));
+            .then(() => console.log('All courses loaded.'))
+            .catch(err => {
+                console.error('Error loading courses: ', err)
+                this.messagesService.showMessage('error' , 'Error loading courses: ' + err);
+            });
         
         effect(() => {
             const beginnerCourses = this.beginnerCourses();
@@ -102,14 +107,11 @@ export class HomeComponent {
     private async loadCourses() {
         try{
             const courses = (await this.coursesService.loadAllCourses()).sort(alphaSort);
-           //  this.messagesService.showMessage('success' , 'Courses loaded successfully!');
             this.#courses.set(courses);
             return courses;
         }
 
         catch (error) {
-            this.messagesService.showMessage('error' , 'Error loading courses: ' + error);
-            console.error('Error loading courses: ', error);
             return Promise.reject(error);
         }
  

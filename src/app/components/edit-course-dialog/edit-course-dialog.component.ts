@@ -65,7 +65,7 @@ export class EditCourseDialogComponent {
   private async saveCourse(changes: Partial<Course>, courseId?: string) { 
     try {
       const course = courseId ? 
-        await this.coursesService.editCourse(courseId, changes):
+        await this.coursesService.updateCourse(courseId, changes):
         await this.coursesService.createCourse(changes);
       console.log('Course saved: ', course);
       this.dialogRef.close(course)

@@ -31,7 +31,7 @@ export class CoursesService {
     return firstValueFrom(course$);
   } 
 
-  editCourse(courseId: string, changes: Partial<Course>){
+  updateCourse(courseId: string, changes: Partial<Course>){
     const course$ = this.http.put<Course>(this.COURSES_URL+ '/' + courseId, changes);
     return firstValueFrom(course$);
   } 

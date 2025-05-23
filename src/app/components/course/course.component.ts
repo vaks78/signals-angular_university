@@ -19,9 +19,5 @@ export class CourseComponent implements OnInit{
   ngOnInit(): void {
     this.course.set(this.route.snapshot.data['course']);
     this.lessons.set(this.route.snapshot.data['lessons']);
-    
-
-    const a = this.lessons();
-    debugger
   }
 }

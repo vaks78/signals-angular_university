@@ -19,8 +19,9 @@ export class AuthService {
   isLoggedIn = computed(() => !!this.#user());
 
   constructor() {
-    this.LoadUserFromStorage();
     // Load user from local storage when the service is initialized 
+    this.LoadUserFromStorage();
+
     effect(() => {
       const user = this.#user()
       if (user) {
@@ -30,6 +31,7 @@ export class AuthService {
         localStorage.removeItem(USER_STORAGE_KEY);
       }
     });
+
   }
 
   async login(email: string, password: string): Promise<User> {
